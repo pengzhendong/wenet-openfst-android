@@ -18,7 +18,7 @@ android {
             }
         }
         ndk {
-            abiFilters 'arm64-v8a', 'x86_64'
+            abiFilters 'arm64-v8a'
         }
     }
 
@@ -56,4 +56,18 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+// rename release AAR to unified name
+task renameAAR(type: Copy) {
+    from('build/outputs/aar/')
+    into('build/outputs/aar/')
+    include("*-static-*.aar")
+    rename { String fileName ->
+        fileName.replace("app-static", "app")
+    }
+}
+
+afterEvaluate {
+    bundleStaticLibRelease.finalizedBy(renameAAR)
 }
