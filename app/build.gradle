@@ -1,13 +1,11 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'com.ydq.android.gradle.native-aar.export'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "io.github.pengzhendong.openfst"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -24,6 +22,11 @@ android {
         }
     }
 
+    nativeBundleExport {
+        headerDir = "${project.projectDir}/libs/include"
+        bundleStatic = true
+        extraStaticLibDir = "${project.projectDir}/libs"
+    }
     buildTypes {
         release {
             minifyEnabled false
